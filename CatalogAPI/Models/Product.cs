@@ -6,6 +6,6 @@
         public decimal? Price { get; set; }
         public string? ImagePath { get; set; }
         public float? Stock { get; set; }
-        public DateTime RegisterDate { get; set; }
+        public DateTime RegisterDate { get; set; }   
     }
 }
