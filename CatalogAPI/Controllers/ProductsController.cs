@@ -24,7 +24,7 @@ namespace CatalogAPI.Controllers {
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetProduct")]
         public ActionResult<Product> Get(int id) {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
 
@@ -33,6 +33,17 @@ namespace CatalogAPI.Controllers {
             }
 
             return product;
+        }
+
+        [HttpPost]
+        public ActionResult Create(Product product) {
+            if (product is null) {
+                return BadRequest();
+            }
+
+            _context.Products.Add(product);
+            _context.SaveChanges();
+            return new CreatedAtRouteResult("GetProduct", new { id = product.Id }, product);
         }
     }
 }
