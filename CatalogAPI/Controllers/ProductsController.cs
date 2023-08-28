@@ -15,7 +15,7 @@ namespace CatalogAPI.Controllers {
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get() {
             var products = _context.Products.ToList();
-            
+
             if (products is null) {
                 return NotFound("Products not found");
             }
@@ -24,5 +24,15 @@ namespace CatalogAPI.Controllers {
         }
 
 
+        [HttpGet("{id:int}")]
+        public ActionResult<Product> Get(int id) {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+
+            if (product is null) {
+                return NotFound("Product not found");
+            }
+
+            return product;
+        }
     }
 }
