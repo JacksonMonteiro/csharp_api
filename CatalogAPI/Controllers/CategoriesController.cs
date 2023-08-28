@@ -17,18 +17,30 @@ namespace CatalogAPI.Controllers {
 
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get() {
-            return _context.Categories.ToList();
+            try {
+                return _context.Categories.AsNoTracking().ToList();
+            }
+            catch (Exception) {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorre um problema ao tratar a sua solicitação");
+            }
+
         }
 
         [HttpGet("{id:int}", Name = "GetCategories")]
         public ActionResult<Category> Get(int id) {
-            var category = _context.Categories.FirstOrDefault(p => p.Id == id);
+            try {
+                var category = _context.Categories.FirstOrDefault(p => p.Id == id);
 
-            if (category == null) {
-                return NotFound("Category not found");
+                if (category == null) {
+                    return NotFound("Category not found");
+                }
+
+                return category;
+            }
+            catch (Exception) {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a sua solicitação.");
             }
 
-            return category;
         }
 
         [HttpPost]
