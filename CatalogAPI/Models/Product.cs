@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CatalogAPI.Models {
+    [Table("Products")]
     public class Product {
         [Key]
         public int Id { get; set; }
