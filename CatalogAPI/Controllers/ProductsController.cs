@@ -1,9 +1,10 @@
 ﻿using CatalogAPI.Context;
+using CatalogAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogAPI.Controllers {
     [Route("api/[controller]")]
-    [ApiController]  
+    [ApiController]
     public class ProductsController : Controller {
         private readonly CatalogAPIContext _context;
 
@@ -11,8 +12,17 @@ namespace CatalogAPI.Controllers {
             _context = context;
         }
 
-        public IActionResult Index() {
-            return View();
+        [HttpGet]
+        public ActionResult<IEnumerable<Product>> Get() {
+            var products = _context.Products.ToList();
+            
+            if (products is null) {
+                return NotFound("Products not found");
+            }
+
+            return products;
         }
+
+
     }
 }
